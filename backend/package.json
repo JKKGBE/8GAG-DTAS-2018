@@ -13,8 +13,8 @@
     "joi": "^14.0.0",
     "jsonwebtoken": "^8.3.0",
     "lodash": "^4.17.11",
+    "moment": "^2.22.2",
     "mongoose": "^5.3.4",
-    "mongoose-beautiful-unique-validation": "^7.1.1",
     "shortid": "^2.2.13"
   }
 }

@@ -3,28 +3,40 @@ import _ from 'lodash';
 
 export default (e, route, requestId) => {
   const modifiedError = Boom.isBoom(e)
-    ? { ...e }
-    : e.name === 'ValidationError'
-      ? getDbError(e)
+    ? e
+    : e.name === 'ValidationError' || e.name === 'MongoError'
+      ? getMongooseError(e)
       : getFatalError(e);
 
-  modifiedError.output.payload.requestId = requestId;
+  modifiedError.output.payload = {
+    ...modifiedError.output.payload,
+    requestId,
+    status: false,
+  };
 
   const errorLogData = {
-    route,
-    requestId,
-    message: modifiedError.message,
-    additionalData: modifiedError.data,
-    stack: modifiedError.stack,
+    error: {
+      route,
+      requestId,
+      message: modifiedError.message,
+      additionalData: modifiedError.data,
+      status: modifiedError.output.payload.status,
+      stack: modifiedError.stack,
+    },
   };
 
   return { modifiedError, errorLogData };
 };
 
-function getDbError(e) {
-  const data = _.pick(Object.values(e.errors)[0], ['kind', 'path']);
+function getMongooseError(e) {
+  const data = e.name === 'ValidationError'
+    ? _.pick(Object.values(e.errors)[0], ['kind', 'path'])
+    : 'E11000';
 
-  return new Boom('databaseError', { statusCode: 400, data });
+  const error = new Boom('databaseError', { statusCode: 400, data });
+  error.output.payload.additionalData = data;
+
+  return error;
 }
 
 function getFatalError(e) {

@@ -1,5 +1,5 @@
 import Boom from 'boom';
-import { commonErrors } from './errors';
+import { commonErrors } from './error-handling';
 
 function propertyCheck(object, properties) {
   properties.forEach(element => {
