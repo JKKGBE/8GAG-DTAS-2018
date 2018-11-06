@@ -4,7 +4,7 @@ import _ from 'lodash';
 import User from './User';
 import userErrors from '../errors';
 
-async function getOne(login, getAuth) {
+async function getOneUser(login, getAuth) {
   const user = await User
     .findOne({ login })
     .lean();
@@ -18,13 +18,13 @@ async function getOne(login, getAuth) {
     : _.omit(user, 'password');
 }
 
-async function add(userData) {
+async function addUser(userData) {
   const savedUser = await new User(userData).save();
 
   return savedUser.toObject();
 }
 
 export {
-  getOne,
-  add,
+  getOneUser,
+  addUser,
 };

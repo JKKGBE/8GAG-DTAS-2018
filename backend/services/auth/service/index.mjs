@@ -3,14 +3,14 @@ import Boom from 'boom';
 import authErrors from '../errors';
 import * as cryptoUtils from '../../../utils/crypto';
 
-export default userRepository => ({
+export default userDao => ({
   async registerUser(userData) {
     const userDataWithHashedPassword = {
       ...userData,
       password: await cryptoUtils.getHashedPassword(userData.password),
     };
 
-    await userRepository.add(userDataWithHashedPassword);
+    await userDao.addUser(userDataWithHashedPassword);
 
     return {
       message: 'User registered sucessfully',
@@ -18,7 +18,7 @@ export default userRepository => ({
   },
 
   async loginUser(userData) {
-    const dbUser = await userRepository.getOne(userData.login, true);
+    const dbUser = await userDao.getOneUser(userData.login, true);
 
     if (!await cryptoUtils.arePasswordsMatching(userData.password, dbUser.password)) {
       throw Boom.badRequest(authErrors.wrongUserNameOrPassword);
