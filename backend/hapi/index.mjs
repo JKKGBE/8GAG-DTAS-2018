@@ -1,14 +1,16 @@
 import Hapi from 'hapi';
 
+import authApi from '../services/auth/service';
+import errorHandler from '../utils/error-handling';
 import { getUniqueId } from '../utils/uniques';
-// import errorHandler from '../utils/errors';
+import { propertyCheck } from '../utils/existence';
 
 let server = undefined;
 
 async function startServer(config) {
   server = Hapi.server(config);
   await server.start();
-  
+
   console.log(`Hapi running at: ${server.info.uri}`);
 }
 
@@ -26,21 +28,25 @@ function handleRequest(route) {
   return async req => {
     try {
       req.requestId = getUniqueId();
-  
+
       if (route.config.auth) {
-        // TODO
-        // req.credentials = await checkToken;
+        propertyCheck(req.payload, ['token']);
+
+        req.payload = {
+          ...req.payload,
+          ...(await authApi.checkToken(req.payload.token)),
+        };
       }
-  
+
       const response = await route.config.handler(req);
-      
+
       return response === undefined
-        ? {}
-        : response;
+        ? { status: true }
+        : { ...response, status: true };
     } catch (e) {
-      console.error(`Error on route: ${route.path}, reason: ${e}`);
-      throw e;
-      // throw errorHandler(e, req.requestId);
+      const { modifiedError, errorLogData } = errorHandler(e, route.path, req.requestId);
+      console.error(errorLogData);
+      throw modifiedError;
     }
   };
 }
