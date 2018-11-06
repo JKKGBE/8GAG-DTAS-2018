@@ -12,8 +12,8 @@ export default {
     },
   },
   hapi: {
-    port: process.env.RN_HAPI_PORT || 4000,
-    host: process.env.RN_HAPI_HOST || 'localhost',
+    port: process.env.HAPI_PORT || 4000,
+    host: process.env.HAPI_HOST || 'localhost',
     routes: {
       cors: true,
       validate: {
@@ -23,6 +23,10 @@ export default {
         },
       },
     },
+  },
+  crypto: {
+    jwtSecret: process.env.JWT_SECRET || 'notsosecret',
+    saltRounds: 10,
   },
   servicesRoot: './services',
 };

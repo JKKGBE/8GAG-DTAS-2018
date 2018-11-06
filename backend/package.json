@@ -7,11 +7,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^3.0.2",
     "boom": "^7.2.0",
     "hapi": "^17.6.0",
     "joi": "^14.0.0",
+    "jsonwebtoken": "^8.3.0",
     "lodash": "^4.17.11",
     "mongoose": "^5.3.4",
+    "mongoose-beautiful-unique-validation": "^7.1.1",
     "shortid": "^2.2.13"
   }
 }
