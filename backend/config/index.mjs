@@ -28,5 +28,9 @@ export default {
     jwtSecret: process.env.JWT_SECRET || 'notsosecret',
     saltRounds: 10,
   },
+  imgur: {
+    apiUrl: 'https://api.imgur.com/3',
+    headers: { Authorization: `Client-ID 40e46680ae51898` },
+  },
   servicesRoot: './services',
 };

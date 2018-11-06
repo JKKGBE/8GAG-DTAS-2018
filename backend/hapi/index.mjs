@@ -1,6 +1,6 @@
 import Hapi from 'hapi';
 
-import authApi from '../services/auth/service';
+import * as authApi from '../services/auth/api/api';
 import errorHandler from '../utils/error-handling';
 import { getUniqueId } from '../utils/uniques';
 import { propertyCheck } from '../utils/existence';
