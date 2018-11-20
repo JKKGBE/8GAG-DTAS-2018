@@ -18,7 +18,7 @@ export default userDao => ({
   },
 
   async loginUser(userData) {
-    const dbUser = await userDao.getOneUser(userData.login, true);
+    const dbUser = await userDao.getOneUser({ login: userData.login }, true);
 
     if (!await cryptoUtils.arePasswordsMatching(userData.password, dbUser.password)) {
       throw Boom.badRequest(authErrors.wrongUserNameOrPassword);

@@ -4,9 +4,9 @@ import _ from 'lodash';
 import User from './User';
 import userErrors from '../errors';
 
-async function getOneUser(login, getAuth) {
+async function getOneUser(query, getAuth) {
   const user = await User
-    .findOne({ login })
+    .findOne(query)
     .lean();
 
   if (!user) {

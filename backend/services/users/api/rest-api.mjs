@@ -3,16 +3,9 @@ import * as api from './api';
 export default [
   {
     method: 'GET',
-    path: '/api/users/{userId}/{postId}/rating',
-    config: {
-      handler: api.checkUserVotes,
-      auth: false,
-    },
-  }, {
-    method: 'GET',
     path: '/api/users/{userId}/posts',
     config: {
-      handler: api.getUsersPosts,
+      handler: api.getUserPosts,
       auth: false,
     },
   }, {
