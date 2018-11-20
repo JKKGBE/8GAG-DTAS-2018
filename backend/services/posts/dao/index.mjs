@@ -1,13 +1,23 @@
-// import Boom from 'boom';
-// import _ from 'lodash';
-
 import Post from './Post';
-// import postErrors from '../errors';
 
-function getManyPosts(query = {}) {
+function getOnePost(query, select) {
+  const postQuery = Post.findOne(query);
+
+  if (select) {
+    postQuery.select(select);
+  }
+
+  return postQuery
+    .lean()
+    .exec();
+}
+
+function getManyPosts(query = {}, sort = { createdOn: -1 }) {
   return Post
     .find(query)
-    .lean();
+    .sort(sort)
+    .lean()
+    .exec();
 }
 
 async function addPost(postData) {
@@ -16,7 +26,27 @@ async function addPost(postData) {
   return savedPost.toObject();
 }
 
+function updatePost(query, updateData) {
+  return Post
+    .findOneAndUpdate(query, updateData)
+    .lean()
+    .exec();
+}
+
+function getPostsRating(query = {}, group) {
+  return Post
+    .aggregate()
+    .match(query)
+    .unwind('$ratings')
+    .group(group)
+    .sort({ rating: -1 })
+    .exec();
+}
+
 export {
+  getOnePost,
   getManyPosts,
   addPost,
+  updatePost,
+  getPostsRating,
 };

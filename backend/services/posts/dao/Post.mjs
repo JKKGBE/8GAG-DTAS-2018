@@ -17,7 +17,7 @@ const postSchema = new Schema({
   }],
   ratings: [{
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    rate: { type: Number, enum: [1, 2, 3, 4, 5], default: 0 },
+    rate: { type: Number, enum: [-1, 0, 1], default: 0 },
     createdOn: { type: Date, required: true, default: moment() },
   }],
 });

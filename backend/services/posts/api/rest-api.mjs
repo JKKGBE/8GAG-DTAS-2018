@@ -16,6 +16,13 @@ export default [
       auth: false,
     },
   }, {
+    method: 'GET',
+    path: '/api/users/{userId}/posts/{postId}/rating',
+    config: {
+      handler: api.getUserVote,
+      auth: false,
+    },
+  }, {
     method: 'POST',
     path: '/api/posts',
     config: {
@@ -26,15 +33,15 @@ export default [
     method: 'GET',
     path: '/api/posts/{postId}/rating',
     config: {
-      handler: api.getPostsRating,
+      handler: api.getPostRating,
       auth: false,
     },
   }, {
     method: 'POST',
     path: '/api/posts/{postId}/rate',
     config: {
-      handler: api.addRateToPost,
       auth: true,
+      handler: api.ratePost,
     },
   }, {
     method: 'GET',
@@ -45,21 +52,21 @@ export default [
     },
   }, {
     method: 'POST',
-    path: '/api/posts/{postId}/comment',
+    path: '/api/posts/{postId}/comments',
     config: {
       handler: api.addCommentToPost,
       auth: true,
     },
   }, {
-    method: 'DELETE',
-    path: '/api/posts/{postId}/{commentId}',
+    method: 'POST',
+    path: '/api/posts/{postId}/comments/{commentId}',
     config: {
       handler: api.removeComment,
       auth: true,
     },
   }, {
-    method: 'PUT',
-    path: '/api/posts/{postId}/{commentId}',
+    method: 'PATCH',
+    path: '/api/posts/{postId}/comments/{commentId}',
     config: {
       handler: api.editComment,
       auth: true,
