@@ -1,0 +1,12 @@
+.post-item {
+  margin-bottom: 20px; }
+  .post-item img {
+    width: 100%; }
+  .post-item .card-footer p {
+    padding-bottom: 10px;
+    margin-bottom: 0px; }
+  .post-item .card-header p {
+    margin-bottom: 0px; }
+  .post-item .card-block {
+    padding: 10px 15px;
+    font-size: 12px; }
